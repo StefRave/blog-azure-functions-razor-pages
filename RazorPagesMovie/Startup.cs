@@ -32,9 +32,8 @@ namespace RazorPagesMovie
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,8 +59,19 @@ namespace RazorPagesMovie
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Environment.GetEnvironmentVariable("HOST_FUNCTION_CONTENT_PATH"), "wwwroot")),
             });
+            
+            app.UseRouting();
 
-            app.UseMvc();            
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
         }
     }
 }

@@ -43,7 +43,7 @@ namespace RazorPagesMovie
                         .AddEnvironmentVariables();
                 })
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
+               // .UseApplicationInsights()
                 .UseContentRoot(functionPath));
 
             ServerHttpClient = Server.CreateClient();
